@@ -1,0 +1,119 @@
+object ProjectForm: TProjectForm
+  Left = 307
+  Height = 242
+  Top = 544
+  Width = 310
+  Anchors = [akTop, akRight]
+  Caption = 'ProjectForm'
+  ClientHeight = 242
+  ClientWidth = 310
+  Constraints.MaxHeight = 242
+  Constraints.MinHeight = 184
+  Constraints.MinWidth = 201
+  OnClose = FormClose
+  Position = poOwnerFormCenter
+  LCLVersion = '1.6.4.0'
+  object projectNameLabel: TLabel
+    Left = 16
+    Height = 15
+    Top = 64
+    Width = 35
+    Caption = 'Name:'
+    ParentColor = False
+  end
+  object projectNameEdit: TEdit
+    Left = 16
+    Height = 23
+    Top = 85
+    Width = 283
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 0
+    Text = 'projectNameEdit'
+  end
+  object projectIconLabel: TLabel
+    Left = 16
+    Height = 15
+    Top = 120
+    Width = 26
+    Caption = 'Icon:'
+    ParentColor = False
+  end
+  object iconLocalRadioButton: TRadioButton
+    Left = 16
+    Height = 19
+    Top = 144
+    Width = 67
+    Caption = 'Local file'
+    OnChange = iconLocalRadioButtonChange
+    TabOrder = 1
+  end
+  object iconRemoteRadioButton: TRadioButton
+    Left = 104
+    Height = 19
+    Top = 144
+    Width = 85
+    Caption = 'Remote URL'
+    OnChange = iconRemoteRadioButtonChange
+    TabOrder = 2
+  end
+  object iconPathEdit: TEdit
+    Left = 16
+    Height = 23
+    Top = 168
+    Width = 247
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 3
+    Text = 'iconPathEdit'
+  end
+  object iconShowFileSelectorButton: TBitBtn
+    Left = 265
+    Height = 23
+    Top = 168
+    Width = 34
+    Anchors = [akTop, akRight]
+    Caption = '...'
+    TabOrder = 4
+  end
+  object projectConfirmButton: TBitBtn
+    Left = 224
+    Height = 30
+    Top = 201
+    Width = 75
+    Anchors = [akRight]
+    Default = True
+    DefaultCaption = True
+    Kind = bkOK
+    ModalResult = 1
+    TabOrder = 5
+  end
+  object projectCancelButton: TBitBtn
+    Left = 144
+    Height = 30
+    Top = 201
+    Width = 75
+    Anchors = [akRight]
+    Cancel = True
+    DefaultCaption = True
+    Kind = bkCancel
+    ModalResult = 2
+    TabOrder = 6
+  end
+  object projectParentLabel: TLabel
+    Left = 16
+    Height = 15
+    Top = 8
+    Width = 37
+    Caption = 'Parent:'
+    ParentColor = False
+  end
+  object projectParentComboBox: TComboBox
+    Left = 16
+    Height = 23
+    Top = 32
+    Width = 280
+    Anchors = [akTop, akLeft, akRight]
+    ItemHeight = 15
+    Style = csDropDownList
+    TabOrder = 7
+  end
+end
