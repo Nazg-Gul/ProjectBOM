@@ -31,7 +31,7 @@ uses
 
 // From a string which has both price and currency, get floating point value
 // of the price itself and currency code separately.
-function getPriceAndCurrency(price: string; var currency: string): double;
+function getPriceAndCurrency(const price: string; var currency: string): double;
 
 // Get temporary file with given extensions.
 function getTempFile(const extension: string): string;
@@ -45,7 +45,7 @@ function fetchFileToTemp(url: string): string;
 
 implementation
 
-function getPriceAndCurrency(price: string; var currency: string): double;
+function getPriceAndCurrency(const price: string; var currency: string): double;
 var i: integer;
     ch: char;
     bare_price: string;

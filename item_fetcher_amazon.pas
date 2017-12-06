@@ -60,7 +60,7 @@ function TItemFetcherAmazon.parsePage(const page: string;
 var document: THTMLDocument;
     stream: TStringStream;
     node: TDOMNode;
-    currency_string: string;
+    price_text, currency_string: string;
     image_source, image_filepath: string;
 begin
   /////////////////////////////////////
@@ -78,7 +78,8 @@ begin
   // Price
   node := findElementById(document, 'priceblock_ourprice');
   if node <> nil then begin
-    item.price := getPriceAndCurrency(getNodePlainText(node), currency_string);
+    price_text := getNodePlainText(node);
+    item.price := getPriceAndCurrency(trim(price_text), currency_string);
     item.currency := model_.getCurrencyByGuess(currency_string);
   end;
   // Image.
