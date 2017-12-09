@@ -42,9 +42,18 @@ type TItemFetcherHTTPS = class(TItemFetcher)
   // So we implement own version, which just works!
   //
   // TODO(sergey): Find a better place for this.
-  function findElementById(document: THTMLDocument; id: string): TDOMNode;
-  function findElementById(nodes: TDOMNodeList; id: string): TDOMNode;
-  function findElementById(node: TDOMNode; id: string): TDOMNode;
+  function findElementById(document: THTMLDocument;
+                           const id: string): TDOMNode;
+
+  function findElementByAttribute(document: THTMLDocument;
+                                  const attribute: string;
+                                  const value: string): TDOMNode;
+  function findElementByAttribute(nodes: TDOMNodeList;
+                                  const attribute: string;
+                                  const value: string): TDOMNode;
+  function findElementByAttribute(node: TDOMNode;
+                                  const attribute: string;
+                                  const value: string): TDOMNode;
 
   // Similat to node.TextContent but does not include text from non-text
   // child nodes.
@@ -75,20 +84,27 @@ begin
   http_client.Free();
 end;
 
-function TItemFetcherHTTPS.findElementById(document: THTMLDocument;
-                                           id: string): TDOMNode;
+////////////////////////////////////////////////////////////////////////////////
+// Generic node finders.
+
+function TItemFetcherHTTPS.findElementByAttribute(
+        document: THTMLDocument;
+        const attribute: string;
+        const value: string): TDOMNode;
 begin
-  result := findElementById(document.ChildNodes, id);
+  result := findElementByAttribute(document.ChildNodes, attribute, value);
 end;
 
-function TItemFetcherHTTPS.findElementById(nodes: TDOMNodeList;
-                                           id: string): TDOMNode;
+function TItemFetcherHTTPS.findElementByAttribute(
+        nodes: TDOMNodeList;
+        const attribute: string;
+        const value: string): TDOMNode;
 var i: integer;
     node, found_node: TDOMNode;
 begin
   for i := 0 to nodes.Count - 1 do begin
     node := nodes.Item[i];
-    found_node := findElementById(node, id);
+    found_node := findElementByAttribute(node, attribute, value);
     if found_node <> nil then begin
       result := found_node;
       exit;
@@ -97,20 +113,31 @@ begin
   result := nil;
 end;
 
-function TItemFetcherHTTPS.findElementById(node: TDOMNode;
-                                           id: string): TDOMNode;
+function TItemFetcherHTTPS.findElementByAttribute(
+        node: TDOMNode;
+        const attribute: string;
+        const value: string): TDOMNode;
 begin
   if node.HasAttributes then begin
-    if string(TDOMElement(node).GetAttribute('id')) = id then begin
+    if string(TDOMElement(node).GetAttribute(attribute)) = value then begin
       result := node;
       exit;
     end;
   end;
   if node.HasChildNodes then begin
-    result := findElementById(node.ChildNodes, id);
+    result := findElementByAttribute(node.ChildNodes, attribute, value);
   end else begin
     result := nil;
   end;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// Specific node finders.
+
+function TItemFetcherHTTPS.findElementById(document: THTMLDocument;
+                                           const id: string): TDOMNode;
+begin
+  result := findElementByAttribute(document.ChildNodes, 'id', id);
 end;
 
 function TItemFetcherHTTPS.getNodePlainText(node: TDOMNode): string;
