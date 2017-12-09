@@ -50,7 +50,8 @@ end;
 
 implementation
 
-uses item_fetcher_amazon, item_fetcher_ebay, item_fetcher_chipdip;
+uses item_fetcher_amazon, item_fetcher_chipdip, item_fetcher_ebay,
+  item_fetcher_elecomp;
 
 class function TItemFetcher.createForSource(
     model: TModel;
@@ -60,11 +61,14 @@ begin
   if (result = nil) and (TItemFetcherAmazon.poll(source)) then begin
     result := TItemFetcherAmazon.Create(model);
   end;
+  if (result = nil) and (TItemFetcherChipdip.poll(source)) then begin
+    result := TItemFetcherChipdip.Create(model);
+  end;
   if (result = nil) and (TItemFetcherEbay.poll(source)) then begin
     result := TItemFetcherEbay.Create(model);
   end;
-  if (result = nil) and (TItemFetcherChipdip.poll(source)) then begin
-    result := TItemFetcherChipdip.Create(model);
+  if (result = nil) and (TItemFetcherElecomp.poll(source)) then begin
+    result := TItemFetcherElecomp.Create(model);
   end;
 end;
 
