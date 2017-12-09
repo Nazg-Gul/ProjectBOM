@@ -115,7 +115,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="15">
+    <Units Count="16">
       <Unit0>
         <Filename Value="ProjectBOM.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -188,6 +188,10 @@
         <Filename Value="item_fetcher_amazon.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit14>
+      <Unit15>
+        <Filename Value="item_fetcher_chipdip.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit15>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
