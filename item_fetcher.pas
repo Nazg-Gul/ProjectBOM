@@ -51,7 +51,7 @@ end;
 implementation
 
 uses item_fetcher_amazon, item_fetcher_chipdip, item_fetcher_ebay,
-  item_fetcher_elecomp;
+  item_fetcher_elecomp, item_fetcher_radiodetali;
 
 class function TItemFetcher.createForSource(
     model: TModel;
@@ -70,6 +70,10 @@ begin
   if (result = nil) and (TItemFetcherElecomp.poll(source)) then begin
     result := TItemFetcherElecomp.Create(model);
   end;
+  // TODO(sergey): Commented out, parser can not parse the HTML page.
+  // if (result = nil) and (TItemFetcherRadiodetali.poll(source)) then begin
+  //   result := TItemFetcherRadiodetali.Create(model);
+  // end;
 end;
 
 constructor TItemFetcher.Create(model: TModel);

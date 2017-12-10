@@ -115,7 +115,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="17">
+    <Units Count="18">
       <Unit0>
         <Filename Value="ProjectBOM.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -196,6 +196,10 @@
         <Filename Value="item_fetcher_elecomp.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit16>
+      <Unit17>
+        <Filename Value="item_fetcher_radiodetali.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit17>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

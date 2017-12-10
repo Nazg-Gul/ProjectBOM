@@ -20,7 +20,7 @@
 
 // Author: Sergey Sharybin (sergey.vfx@gmail.com)
 
-unit item_fetcher_elecomp;
+unit item_fetcher_radiodetali;
 
 {$mode objfpc}{$H+}
 
@@ -29,7 +29,7 @@ interface
 uses
   Classes, SysUtils, item_fetcher_https, model, Dialogs;
 
-type TItemFetcherElecomp = class(TItemFetcherHTTPS)
+type TItemFetcherRadiodetali = class(TItemFetcherHTTPS)
  public
   class function poll(const source: string): boolean; static;
 
@@ -43,23 +43,23 @@ implementation
 
 uses uriparser, util, sax_html, dom_html, dom;
 
-class function TItemFetcherElecomp.poll(const source: string): boolean;
+class function TItemFetcherRadiodetali.poll(const source: string): boolean;
 var uri: TURI;
 begin
   result := false;
   uri := ParseURI(source);
-  // TODO(sergey): What if it's elecomp.ru.lets.confuse.me.com domain?
-  if uri.Host.StartsWith('elecomp.ru') or
-     uri.Host.StartsWith('www.elecomp.ru') then begin
+  // TODO(sergey): What if it's radiodetali.perm.ru.lets.confuse.me.com domain?
+  if uri.Host.StartsWith('radiodetali.perm.ru') or
+     uri.Host.StartsWith('www.radiodetali.perm.ru') then begin
     result := true;
   end
 end;
 
-function TItemFetcherElecomp.parsePage(const page: string;
-                                       var item: TModelItem): boolean;
+function TItemFetcherRadiodetali.parsePage(const page: string;
+                                           var item: TModelItem): boolean;
 var document: THTMLDocument;
     stream: TStringStream;
-    node: TDOMNode;
+    page_node, node: TDOMNode;
     price_text, currency_string: string;
     image_source, image_filepath: string;
 begin
@@ -70,8 +70,14 @@ begin
   stream.Free();
   /////////////////////////////////////
   // Get into DOM itself.
+  page_node := findElementByAttribute(document, 'class', 'page');
+  if page_node = nil then begin
+    document.Free();
+    result := false;
+    exit;
+  end;
   // Name.
-  node := findElementByAttribute(document, 'itemprop', 'name');
+  node := page_node.ChildNodes[0];
   if node <> nil then begin
     item.name := trim(getNodePlainText(node));
   end;
@@ -89,7 +95,7 @@ begin
     image_source := string(TDomElement(node).GetAttribute('src'));
     // TODO(sergey): Make it more generic to handle absolute domain paths.
     if (image_source[1] = '/') or (image_source[1] = '.') then begin
-      image_source := 'https://elecomp.ru' + image_source;
+      image_source := 'https://Radiodetali.perm.ru' + image_source;
     end;
     image_filepath := fetchFileToTemp(image_source);
     if image_filepath <> '' then begin
