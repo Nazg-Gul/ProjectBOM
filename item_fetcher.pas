@@ -50,14 +50,22 @@ end;
 
 implementation
 
-uses item_fetcher_amazon, item_fetcher_chipdip, item_fetcher_ebay,
-  item_fetcher_elecomp, item_fetcher_radiodetali;
+uses item_fetcher_alternate,
+     item_fetcher_amazon,
+     item_fetcher_chipdip,
+     item_fetcher_ebay,
+     item_fetcher_elecomp,
+     item_fetcher_radiodetali;
 
 class function TItemFetcher.createForSource(
     model: TModel;
     const source: string): TItemFetcher;
 begin
   result := nil;
+  // TODO(sergey): Commented out, HTTPS client gives 403.
+  // if (result = nil) and (TItemFetcherAlternate.poll(source)) then begin
+  //   result := TItemFetcherAlternate.Create(model);
+  // end;
   if (result = nil) and (TItemFetcherAmazon.poll(source)) then begin
     result := TItemFetcherAmazon.Create(model);
   end;
