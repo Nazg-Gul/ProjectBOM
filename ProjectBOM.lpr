@@ -33,7 +33,7 @@ uses
   item_form, database, database_sqlite3, model_schema, array_list, item_fetcher,
   item_fetcher_https, item_fetcher_ebay, currency_form, item_fetcher_amazon,
   item_fetcher_chipdip, item_fetcher_elecomp, item_fetcher_radiodetali, 
-item_fetcher_alternate
+item_fetcher_alternate, item_fetcher_conrad
   { you can add units after this };
 
 {$R *.res}

@@ -53,6 +53,7 @@ implementation
 uses item_fetcher_alternate,
      item_fetcher_amazon,
      item_fetcher_chipdip,
+     item_fetcher_conrad,
      item_fetcher_ebay,
      item_fetcher_elecomp,
      item_fetcher_radiodetali;
@@ -72,6 +73,10 @@ begin
   if (result = nil) and (TItemFetcherChipdip.poll(source)) then begin
     result := TItemFetcherChipdip.Create(model);
   end;
+  // TODO(sergey): Disabled, for some reason HTML tag is empty.
+  // if (result = nil) and (TItemFetcherConrad.poll(source)) then begin
+  //   result := TItemFetcherConrad.Create(model);
+  // end;
   if (result = nil) and (TItemFetcherEbay.poll(source)) then begin
     result := TItemFetcherEbay.Create(model);
   end;
