@@ -333,6 +333,7 @@ object MainForm: TMainForm
       end
       object deleteProjectMenuItem: TMenuItem
         Caption = 'Delete project...'
+        OnClick = deleteProjectPopupMenuItemClick
       end
       object separatorMenuItem: TMenuItem
         Caption = '-'
