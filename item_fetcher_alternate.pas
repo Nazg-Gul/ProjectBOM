@@ -85,10 +85,9 @@ begin
     item.currency := model_.getCurrencyByGuess('EUR');  // Override.
   end;
   // Image.
-  node := findElementByAttribute(document, 'class', 'picture loupe');
+  node := findElementByAttribute(document, 'itemprop', 'image');
   if node <> nil then begin
-    node := node.ChildNodes[0];
-    image_source := string(TDomElement(node).GetAttribute('src'));
+    image_source := string(TDomElement(node).GetAttribute('content'));
     image_filepath := fetchFileToTemp(url, image_source);
     if image_filepath <> '' then begin
       item.loadImageFromFile(image_filepath);

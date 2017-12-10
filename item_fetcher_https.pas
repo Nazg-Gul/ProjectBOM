@@ -144,11 +144,18 @@ end;
 function TItemFetcherHTTPS.getNodePlainText(node: TDOMNode): string;
 var i: integer;
     child_node: TDOMNode;
+    current: string;
 begin
   result := '';
   for i := 0 to node.ChildNodes.Count - 1 do begin
     child_node := node.ChildNodes.Item[i];
+    current := '';
     if string(child_node.NodeName) = '#text' then begin
+      current := string(child_node.TextContent);
+    end else if child_node.HasChildNodes then begin
+      current := getNodePlainText(child_node);
+    end;
+    if current <> '' then begin
       if result <> '' then begin
         result += ' ';
       end;

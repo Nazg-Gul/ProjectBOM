@@ -63,10 +63,9 @@ class function TItemFetcher.createForSource(
     const source: string): TItemFetcher;
 begin
   result := nil;
-  // TODO(sergey): Commented out, HTTPS client gives 403.
-  // if (result = nil) and (TItemFetcherAlternate.poll(source)) then begin
-  //   result := TItemFetcherAlternate.Create(model);
-  // end;
+  if (result = nil) and (TItemFetcherAlternate.poll(source)) then begin
+    result := TItemFetcherAlternate.Create(model);
+  end;
   if (result = nil) and (TItemFetcherAmazon.poll(source)) then begin
     result := TItemFetcherAmazon.Create(model);
   end;
