@@ -35,7 +35,8 @@ type TItemFetcherAlternate = class(TItemFetcherHTTPS)
 
  protected
   // Parse received page, return true on succes.
-  function parsePage(const page: string;
+  function parsePage(const url: string;
+                     const page: string;
                      var item: TModelItem): boolean; override;
 end;
 
@@ -55,7 +56,8 @@ begin
   end
 end;
 
-function TItemFetcherAlternate.parsePage(const page: string;
+function TItemFetcherAlternate.parsePage(const url: string;
+                                         const page: string;
                                          var item: TModelItem): boolean;
 var document: THTMLDocument;
     stream: TStringStream;
@@ -87,11 +89,7 @@ begin
   if node <> nil then begin
     node := node.ChildNodes[0];
     image_source := string(TDomElement(node).GetAttribute('src'));
-    // TODO(sergey): Make it more generic to handle absolute domain paths.
-    if (image_source[1] = '/') or (image_source[1] = '.') then begin
-      image_source := 'https://elecomp.ru' + image_source;
-    end;
-    image_filepath := fetchFileToTemp(image_source);
+    image_filepath := fetchFileToTemp(url, image_source);
     if image_filepath <> '' then begin
       item.loadImageFromFile(image_filepath);
       DeleteFile(image_filepath);

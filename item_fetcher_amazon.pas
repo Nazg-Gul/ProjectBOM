@@ -35,7 +35,8 @@ type TItemFetcherAmazon = class(TItemFetcherHTTPS)
 
  protected
   // Parse received page, return true on succes.
-  function parsePage(const page: string;
+  function parsePage(const url: string;
+                     const page: string;
                      var item: TModelItem): boolean; override;
 end;
 
@@ -55,7 +56,8 @@ begin
   end
 end;
 
-function TItemFetcherAmazon.parsePage(const page: string;
+function TItemFetcherAmazon.parsePage(const url: string;
+                                      const page: string;
                                       var item: TModelItem): boolean;
 var document: THTMLDocument;
     stream: TStringStream;
@@ -86,7 +88,7 @@ begin
   node := findElementById(document, 'landingImage');
   if node <> nil then begin
     image_source := string(TDomElement(node).GetAttribute('src'));
-    image_filepath := fetchFileToTemp(image_source);
+    image_filepath := fetchFileToTemp(url, image_source);
     if image_filepath <> '' then begin
       item.loadImageFromFile(image_filepath);
       DeleteFile(image_filepath);

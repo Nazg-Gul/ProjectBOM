@@ -200,7 +200,7 @@ end;
 procedure TItemForm.imageFetchButtonClick(Sender: TObject);
 var image_filepath: string;
 begin
-  image_filepath := fetchFileToTemp(itemImagePathEdit.Text);
+  image_filepath := fetchFileToTemp('', itemImagePathEdit.Text);
   if image_filepath <> '' then begin
     itemImage.Picture.LoadFromFile(image_filepath);
     DeleteFile(image_filepath);

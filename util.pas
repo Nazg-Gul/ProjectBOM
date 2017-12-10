@@ -41,9 +41,11 @@ function getTempFile(const extension: string): string;
 // Returns full file name of the downloaded file. In the case of failure the
 // return value is empty string.
 // Caller is responsible for removing this file.
-function fetchFileToTemp(url: string): string;
+function fetchFileToTemp(const referrer: string; const url: string): string;
 
 implementation
+
+uses uriparser;
 
 function getPriceAndCurrency(const price: string; var currency: string): double;
 var i: integer;
@@ -86,10 +88,37 @@ begin
   until not FileExists(Result);
 end;
 
-function fetchFileToTemp(url: string): string;
+function getAbsoluteURL(const referrer: string; const url: string): string;
+var uri: TURI;
+begin
+  if length(url) = 0 then begin
+     result := '';
+     exit;
+  end;
+  if url[1] = '/' then begin
+    uri := ParseURI(referrer);
+    uri.Path := url;
+    uri.Bookmark := '';
+    uri.Params := '';
+    uri.Document := '';
+    result := EncodeURI(uri);
+  end else if url[1] = '.' then begin
+    uri := ParseURI(referrer);
+    uri.Path := uri.Path + '/' + url;
+    uri.Bookmark := '';
+    uri.Params := '';
+    uri.Document := '';
+    result := EncodeURI(uri);
+  end else begin
+    result := url;
+  end;
+end;
+
+function fetchFileToTemp(const referrer: string; const url: string): string;
 var file_extension, output_file: string;
     http_client: TFPHttpClient;
     file_stream: TFileStream;
+    abs_url: string;
 begin
   // Construct full name of the output file.
   file_extension := ExtractFileExt(url);
@@ -98,8 +127,9 @@ begin
   file_stream := TFileStream.Create(output_file, fmCreate);
   // Fetch data into a stream.
   http_client := TFPHttpClient.Create(Nil);
+  abs_url := getAbsoluteURL(referrer, url);
   try
-    http_client.Get(url, file_stream);
+    http_client.Get(abs_url, file_stream);
   except
     on EHTTPClient do begin
       result := '';

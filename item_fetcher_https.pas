@@ -35,7 +35,8 @@ type TItemFetcherHTTPS = class(TItemFetcher)
   function fetch(const url: string; var item: TModelItem): boolean; override;
  protected
   // Parse received page, return true on succes.
-  function parsePage(const page: string;
+  function parsePage(const url: string;
+                     const page: string;
                      var item: TModelItem): boolean; virtual; abstract;
 
   // Standard HTML parser always returns nil for getElementByID().
@@ -73,7 +74,7 @@ begin
     http_client.AddHeader('User-Agent','curl/7.56.1');
     http_client.AddHeader('Acceot','*/*');
     received_data := http_client.Get(url);
-    result := parsePage(received_data, item);
+    result := parsePage(url, received_data, item);
   except
     on EHTTPClient do begin
       Application.MessageBox('Error fetching HTTP(s) page.',
