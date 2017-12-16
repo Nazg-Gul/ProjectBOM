@@ -112,7 +112,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="21">
+    <Units Count="22">
       <Unit0>
         <Filename Value="ProjectBOM.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -209,6 +209,10 @@
         <Filename Value="item_fetcher_aliexpress.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit20>
+      <Unit21>
+        <Filename Value="item_fetcher_banggood.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit21>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
