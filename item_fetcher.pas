@@ -50,7 +50,8 @@ end;
 
 implementation
 
-uses item_fetcher_alternate,
+uses item_fetcher_aliexpress,
+     item_fetcher_alternate,
      item_fetcher_amazon,
      item_fetcher_chipdip,
      item_fetcher_conrad,
@@ -63,6 +64,9 @@ class function TItemFetcher.createForSource(
     const source: string): TItemFetcher;
 begin
   result := nil;
+  if (result = nil) and (TItemFetcherAliexpress.poll(source)) then begin
+    result := TItemFetcherAliexpress.Create(model);
+  end;
   if (result = nil) and (TItemFetcherAlternate.poll(source)) then begin
     result := TItemFetcherAlternate.Create(model);
   end;

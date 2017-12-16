@@ -45,6 +45,8 @@ type TItemFetcherHTTPS = class(TItemFetcher)
   // TODO(sergey): Find a better place for this.
   function findElementById(document: THTMLDocument;
                            const id: string): TDOMNode;
+  function findElementByClass(document: THTMLDocument;
+                              const class_name: string): TDOMNode;
 
   function findElementByAttribute(document: THTMLDocument;
                                   const attribute: string;
@@ -139,6 +141,13 @@ function TItemFetcherHTTPS.findElementById(document: THTMLDocument;
                                            const id: string): TDOMNode;
 begin
   result := findElementByAttribute(document.ChildNodes, 'id', id);
+end;
+
+function TItemFetcherHTTPS.findElementByClass(
+    document: THTMLDocument;
+    const class_name: string): TDOMNode;
+begin
+  result := findElementByAttribute(document.ChildNodes, 'class', class_name);
 end;
 
 function TItemFetcherHTTPS.getNodePlainText(node: TDOMNode): string;
