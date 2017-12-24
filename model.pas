@@ -98,7 +98,10 @@ type TModelItemStatus = (
   // The item has been delivered.
   TMIS_DELIVERED = 3,
   // Fully done with an item, can scratch it from the BOM.
-  TMIS_DONE      = 5
+  TMIS_DONE      = 5,
+  // There is no need in this item anymore, but keep it in list just for
+  // reference.
+  TMIS_CANCELLED = 6
 );
 
 // Get number of item statuses.
@@ -138,6 +141,9 @@ type TModelItem = class
 
   // When item is done its cost is deducted from the remaining bill.
   function isDone(): boolean;
+
+  // When item is cancelled its cost is deducted from the any bills.
+  function isCancelled(): boolean;
 end;
 
 type TModelItemList = specialize TFPGList<TModelItem>;
@@ -410,7 +416,7 @@ function getNumItemStatus(): integer;
 begin
   // TODO(sergey): What would be more reliable way without too much trickery?
   // Especially, trickery which will deal with possibly added/removed status.
-  result := Integer(TMIS_DONE);
+  result := Integer(TMIS_CANCELLED);
 end;
 
 function getItemnStatusName(status: TModelItemStatus): string;
@@ -421,6 +427,7 @@ begin
     TMIS_SENT:      result := 'Sent';
     TMIS_DELIVERED: result := 'Delivered';
     TMIS_DONE:      result := 'Done';
+    TMIS_CANCELLED: result := 'Cancelled';
     else result := 'Unknown';
   end;
 end;
@@ -539,6 +546,11 @@ begin
  result := status = TMIS_DONE;
 end;
 
+function TModelItem.isCancelled(): boolean;
+begin
+ result := status = TMIS_CANCELLED;
+end;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Project implementation
 
@@ -586,6 +598,9 @@ begin
   result := 0.0;
   for i := 0 to items.Count - 1 do begin
     item := TModelItem(items[i]);
+    if item.isCancelled() then begin
+      continue;
+    end;
     if item.currency <> nil then begin
       result += item.currency.convertTo(model, item.price, currency);
     end;
@@ -605,7 +620,7 @@ begin
   result := 0.0;
   for i := 0 to items.Count - 1 do begin
     item := TModelItem(items[i]);
-    if item.isDone() then begin
+    if item.isDone() or item.isCancelled() then begin
       continue;
     end;
     if item.currency <> nil then begin
