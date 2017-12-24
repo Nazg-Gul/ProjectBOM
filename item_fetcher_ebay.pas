@@ -75,7 +75,7 @@ begin
   // Name.
   node := findElementById(document, 'itemTitle');
   if node <> nil then begin
-    item.name := trim(getNodePlainText(node));
+    item.name := trim(getNodePlainText(node, false));
   end;
   // Price
   node := findElementById(document, 'prcIsum');

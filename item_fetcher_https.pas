@@ -60,7 +60,8 @@ type TItemFetcherHTTPS = class(TItemFetcher)
 
   // Similat to node.TextContent but does not include text from non-text
   // child nodes.
-  function getNodePlainText(node: TDOMNode): string;
+  function getNodePlainText(const node: TDOMNode;
+                            recursive: boolean = false): string;
 end;
 
 implementation
@@ -150,7 +151,8 @@ begin
   result := findElementByAttribute(document.ChildNodes, 'class', class_name);
 end;
 
-function TItemFetcherHTTPS.getNodePlainText(node: TDOMNode): string;
+function TItemFetcherHTTPS.getNodePlainText(const node: TDOMNode;
+                                            recursive: boolean): string;
 var i: integer;
     child_node: TDOMNode;
     current: string;
@@ -162,7 +164,9 @@ begin
     if string(child_node.NodeName) = '#text' then begin
       current := string(child_node.TextContent);
     end else if child_node.HasChildNodes then begin
-      current := getNodePlainText(child_node);
+      if recursive then begin
+        current := getNodePlainText(child_node);
+      end;
     end;
     if current <> '' then begin
       if result <> '' then begin
