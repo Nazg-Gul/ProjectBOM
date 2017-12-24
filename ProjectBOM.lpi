@@ -112,7 +112,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="22">
+    <Units Count="23">
       <Unit0>
         <Filename Value="ProjectBOM.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -213,6 +213,10 @@
         <Filename Value="item_fetcher_banggood.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit21>
+      <Unit22>
+        <Filename Value="item_fetcher_batronix.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit22>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

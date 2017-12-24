@@ -54,6 +54,7 @@ uses item_fetcher_aliexpress,
      item_fetcher_alternate,
      item_fetcher_amazon,
      item_fetcher_banggood,
+     item_fetcher_batronix,
      item_fetcher_chipdip,
      item_fetcher_conrad,
      item_fetcher_ebay,
@@ -76,6 +77,9 @@ begin
   end;
   if (result = nil) and (TItemFetcherBanggood.poll(source)) then begin
     result := TItemFetcherBanggood.Create(model);
+  end;
+  if (result = nil) and (TItemFetcherBatronix.poll(source)) then begin
+    result := TItemFetcherBatronix.Create(model);
   end;
   if (result = nil) and (TItemFetcherChipdip.poll(source)) then begin
     result := TItemFetcherChipdip.Create(model);
