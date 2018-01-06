@@ -365,7 +365,7 @@ begin
   with Sender.Canvas do begin
     item := TModelItem(node.Data);
     // TODO(sergey): Use some sort of theme.
-    if item.isDone() then begin
+    if item.isDone() or item.isCancelled() then begin
       Font.Color := clGray;
     end else begin
       Font.Color := clBlack;

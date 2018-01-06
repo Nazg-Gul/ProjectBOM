@@ -11,7 +11,7 @@ object MainForm: TMainForm
   Menu = mainMenu
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '1.8.0.6'
   object projectGroupBox: TGroupBox
     Left = 4
     Height = 407
@@ -30,7 +30,6 @@ object MainForm: TMainForm
       Top = 0
       Width = 253
       Align = alClient
-      DefaultItemHeight = 18
       Images = projectImageList
       PopupMenu = projectTreePopupMenu
       ScrollBars = ssAutoBoth
@@ -195,7 +194,6 @@ object MainForm: TMainForm
         Top = 0
         Width = 190
         Align = alClient
-        DefaultItemHeight = 18
         Images = itemImageList
         ParentFont = False
         PopupMenu = itemTreePopupMenu
@@ -267,7 +265,6 @@ object MainForm: TMainForm
       Left = 247
       Height = 22
       Top = 2
-      Width = 8
       Caption = 'ToolButton3'
       Style = tbsSeparator
     end
@@ -293,7 +290,6 @@ object MainForm: TMainForm
       Left = 462
       Height = 22
       Top = 2
-      Width = 8
       Caption = 'ToolButton1'
       Style = tbsSeparator
     end
