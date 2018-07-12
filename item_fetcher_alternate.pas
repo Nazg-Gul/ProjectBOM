@@ -73,9 +73,12 @@ begin
   /////////////////////////////////////
   // Get into DOM itself.
   // Name.
-  node := findElementByAttribute(document, 'class', 'productTopContainerRow');
+  node := findElementByAttribute(document, 'class', 'productNameContainer');
   if node <> nil then begin
-    item.name := trim(getNodePlainText(node));
+    node := findElementByAttribute(node, 'itemprop', 'name');
+    if node <> nil then begin
+      item.name := string(TDOMElement(node).GetAttribute('content'));
+    end;
   end;
   // Price
   node := findElementByAttribute(document, 'itemprop', 'price');
