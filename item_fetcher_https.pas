@@ -74,7 +74,7 @@ begin
   http_client := TFPHttpClient.Create(Nil);
   try
     http_client.AllowRedirect := true;
-    http_client.AddHeader('User-Agent', 'User-Agent:curl/7.56.1');
+    http_client.AddHeader('User-Agent', 'curl/7.56.1');
     http_client.AddHeader('Accept', '*/*');
     received_data := http_client.Get(url);
     result := parsePage(url, received_data, item);
