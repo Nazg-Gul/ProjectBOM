@@ -87,7 +87,11 @@ begin
   // Image.
   node := findElementById(document, 'landingImage');
   if node <> nil then begin
-    image_source := string(TDomElement(node).GetAttribute('src'));
+    // This is a special trick to delay dealing with BASE64 embedded image.
+    image_source := string(TDomElement(node).GetAttribute('data-old-hires'));
+    if image_source = '' then begin
+      image_source := string(TDomElement(node).GetAttribute('src'));
+    end;
     image_filepath := fetchFileToTemp(url, image_source);
     if image_filepath <> '' then begin
       item.loadImageFromFile(image_filepath);

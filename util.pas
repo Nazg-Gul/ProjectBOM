@@ -118,8 +118,23 @@ function fetchFileToTemp(const referrer: string; const url: string): string;
 var file_extension, output_file: string;
     http_client: TFPHttpClient;
     file_stream: TFileStream;
-    abs_url: string;
+    verified_url, abs_url: string;
+
+function fetchEncodedData(const url: string): string;
 begin
+  // TODO(sergey): Needs implementation.
+  result := '';
+end;
+
+begin
+  // Get valid downloadable URL.
+  verified_url := trim(url);
+  if (length(verified_url) > 4) and
+      (copy(verified_url, 1, 4) = 'data') then begin
+    result := fetchEncodedData(verified_url);
+    exit;
+  end;
+  abs_url := getAbsoluteURL(referrer, verified_url);
   // Construct full name of the output file.
   file_extension := ExtractFileExt(url);
   output_file := GetTempFile(file_extension);
@@ -127,7 +142,6 @@ begin
   file_stream := TFileStream.Create(output_file, fmCreate);
   // Fetch data into a stream.
   http_client := TFPHttpClient.Create(Nil);
-  abs_url := getAbsoluteURL(referrer, url);
   try
     http_client.Get(abs_url, file_stream);
   except
