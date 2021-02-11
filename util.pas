@@ -51,6 +51,7 @@ function getPriceAndCurrency(const price: string; var currency: string): double;
 var i: integer;
     ch: char;
     bare_price: string;
+    format_setting: TFormatSettings;
 begin
   // Initialize.
   bare_price := '';
@@ -58,6 +59,10 @@ begin
   // Loop over the string and see where the char belongs to.
   for i := 1 to price.Length do begin
     ch := price[i];
+    // Make sure dot is used for decimal separation.
+    if ch = ',' then begin
+      ch := '.';
+    end;
     // Strip all whitespace away.
     if ch = ' ' then begin
       continue;
@@ -71,7 +76,11 @@ begin
        currency += ch;
      end;
   end;
-  result := StrToFloat(bare_price);
+
+  FillChar(format_setting, SizeOf(format_setting), 0);
+  format_setting.DecimalSeparator := '.';
+
+  result := StrToFloat(bare_price, format_setting);
 end;
 
 function GetTempFile(const extension: string): string;
