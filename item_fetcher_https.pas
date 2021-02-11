@@ -28,7 +28,7 @@ interface
 
 uses
   Classes, SysUtils, item_fetcher, model, fphttpclient, dom_html, dom, util,
-  Forms, LCLType;
+  Forms, LCLType, opensslsockets;
 
 type TItemFetcherHTTPS = class(TItemFetcher)
  public
