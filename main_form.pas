@@ -49,6 +49,7 @@ type
     copyURLToClipboardMenuItem: TMenuItem;
     currencyEditorMenuItem: TMenuItem;
     separatorMenuItem0: TMenuItem;
+    activeOnlyToggleButton: TToolButton;
     urlPopupMenu: TPopupMenu;
     projectImageList: TImageList;
     itemsGroup: TGroupBox;
@@ -91,6 +92,7 @@ type
     ToolButton3: TToolButton;
     deleteItemToolButton: TToolButton;
     itemTreeView: TTreeView;
+    procedure activeOnlyToggleButtonClick(Sender: TObject);
     procedure addItemMenuItemClick(Sender: TObject);
     procedure addProjectMenuItemClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -187,7 +189,7 @@ type
     // Visible information.
 
     procedure fillSummaryForActiveProject();
-    procedure fillItemsForActiveProject();
+    procedure fillItemsForActiveProject(force: Boolean = false);
     procedure fillItemDetails(item: TModelItem);
 
     ///////////////////
@@ -427,6 +429,12 @@ end;
 procedure TMainForm.addItemMenuItemClick(Sender: TObject);
 begin
   addOrEditItemInvoke(Nil);
+end;
+
+procedure TMainForm.activeOnlyToggleButtonClick(Sender: TObject);
+begin
+  fillItemsForActiveProject(true);
+  fillSummaryForActiveProject();
 end;
 
 procedure TMainForm.editItemMenuItemClick(Sender: TObject);
@@ -801,17 +809,19 @@ begin
   end;
 end;
 
-procedure TMainForm.fillItemsForActiveProject();
+procedure TMainForm.fillItemsForActiveProject(force: Boolean);
 var
   active_project: TModelProject;
   i: Integer;
   tree_node: TTreeNode;
   item: TModelItem;
+  show_only_active: Boolean;
 begin
   active_project := getActiveProject();
+  show_only_active := activeOnlyToggleButton.Down;
   // Don't bother re-fillign same project, everything is supposed to be up to
   // date already.
-  if active_project = current_item_list_project_ then begin
+  if (not force) and (active_project = current_item_list_project_) then begin
     exit();
   end;
   current_item_list_project_ := active_project;
@@ -822,12 +832,17 @@ begin
   end;
   // Fill in items for active project.
   for i := 0 to active_project.items.Count - 1 do begin
-    item := TModelItem(active_project.items[i]);
+    item := active_project.items[i];
+    if show_only_active then begin
+      if item.isDone() or item.isCancelled() then begin
+        continue;
+      end;
+    end;
     tree_node := itemTreeView.Items.Add(Nil, '');
     fillItemTreeNode(item, tree_node);
   end;
   itemTreeView.AlphaSort();
-  if active_project.items.Count <> 0 then begin
+  if itemTreeView.Items.Count <> 0 then begin
     itemTreeView.Items[0].Selected := true;
   end;
 end;

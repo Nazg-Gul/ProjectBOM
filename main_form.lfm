@@ -11,7 +11,7 @@ object MainForm: TMainForm
   Menu = mainMenu
   OnClose = FormClose
   OnCreate = FormCreate
-  LCLVersion = '1.8.0.6'
+  LCLVersion = '2.0.10.0'
   object projectGroupBox: TGroupBox
     Left = 4
     Height = 407
@@ -293,6 +293,13 @@ object MainForm: TMainForm
       Caption = 'ToolButton1'
       Style = tbsSeparator
     end
+    object activeOnlyToggleButton: TToolButton
+      Left = 470
+      Top = 2
+      Caption = 'Active Only'
+      OnClick = activeOnlyToggleButtonClick
+      Style = tbsCheck
+    end
   end
   object projectAndItemSplitter: TSplitter
     Left = 261
@@ -301,8 +308,8 @@ object MainForm: TMainForm
     Width = 5
   end
   object mainMenu: TMainMenu
-    left = 64
-    top = 56
+    Left = 64
+    Top = 56
     object fileMenuItem: TMenuItem
       Caption = '&File'
       object exitMenuItem: TMenuItem
@@ -355,8 +362,8 @@ object MainForm: TMainForm
     end
   end
   object projectTreePopupMenu: TPopupMenu
-    left = 64
-    top = 120
+    Left = 64
+    Top = 120
     object addProjectPopupMenuItem: TMenuItem
       Caption = 'Add project...'
       OnClick = addProjectMenuItemClick
@@ -371,8 +378,8 @@ object MainForm: TMainForm
     end
   end
   object itemTreePopupMenu: TPopupMenu
-    left = 328
-    top = 120
+    Left = 328
+    Top = 120
     object addItemPopupMenuItem: TMenuItem
       Caption = 'Add item...'
       OnClick = addItemMenuItemClick
@@ -387,8 +394,8 @@ object MainForm: TMainForm
     end
   end
   object projectImageList: TImageList
-    left = 64
-    top = 192
+    Left = 64
+    Top = 192
     Bitmap = {
       4C69010000001000000010000000474747004747470047474700474747004747
       4700474747004747470047474700474747004747470047474700474747004747
@@ -426,8 +433,8 @@ object MainForm: TMainForm
     }
   end
   object itemImageList: TImageList
-    left = 328
-    top = 192
+    Left = 328
+    Top = 192
     Bitmap = {
       4C69010000001000000010000000999999AC818181FF818181FF818181FF8181
       81FF818181FF818181FF818181FF818181FF818181FF818181FF818181FF8181
@@ -465,8 +472,8 @@ object MainForm: TMainForm
     }
   end
   object urlPopupMenu: TPopupMenu
-    left = 568
-    top = 344
+    Left = 568
+    Top = 344
     object copyURLToClipboardMenuItem: TMenuItem
       Caption = '&Copy to clipboard'
       OnClick = copyURLToClipboardMenuItemClick
