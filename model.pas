@@ -144,6 +144,10 @@ type TModelItem = class
 
   // When item is cancelled its cost is deducted from the any bills.
   function isCancelled(): boolean;
+
+  // Check based on the item status to see whether the item was paid for.
+  // Is used when calcualting remaining project cost.
+  function isPaid(): boolean;
 end;
 
 type TModelItemList = specialize TFPGList<TModelItem>;
@@ -551,6 +555,14 @@ begin
  result := status = TMIS_CANCELLED;
 end;
 
+function TModelItem.isPaid(): boolean;
+begin
+ result := (status = TMIS_ORDERED) or
+           (status = TMIS_SENT) or
+           (status = TMIS_DELIVERED) or
+           (status = TMIS_DONE);
+end;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Project implementation
 
@@ -620,7 +632,7 @@ begin
   result := 0.0;
   for i := 0 to items.Count - 1 do begin
     item := TModelItem(items[i]);
-    if item.isDone() or item.isCancelled() then begin
+    if item.isPaid() then begin
       continue;
     end;
     if item.currency <> nil then begin
