@@ -632,7 +632,7 @@ begin
   result := 0.0;
   for i := 0 to items.Count - 1 do begin
     item := TModelItem(items[i]);
-    if item.isPaid() then begin
+    if item.isPaid() or item.isCancelled() then begin
       continue;
     end;
     if item.currency <> nil then begin
